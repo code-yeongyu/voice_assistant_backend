@@ -70,7 +70,7 @@ def _link_by_words(cmd, user) :
                 elif _is_contain(cmd, "낮") or _is_contain(cmd, "내") :
                     try :
                         level = int(re.findall('\d+', cmd)[0])
-                        response = actions.TvSimpleControlRepeat().volume(False, level)
+                        response = actions.TvSimpleControlRepeat().channel_control(False, level)
                     except :
                         response = actions.Tv().channel_control(False)
                     return {'response':response, 'action':action}
