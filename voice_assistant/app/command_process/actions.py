@@ -90,7 +90,7 @@ class Clock :
             sun = "오전"
         elif sun == 'PM' :
             sun = "오후"
-        date_string = sun+" "+date.strftime('%l시 %M분')
+        date_string = sun+""+date.strftime('%l시 %M분')
         return answers.Clock().time_now(date_string)
 
 class BasicFeatures(WeatherCondition, Clock) :

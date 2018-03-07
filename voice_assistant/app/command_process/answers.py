@@ -49,7 +49,7 @@ class Today :
 
 class Clock :
     def time_now(self, time):
-        return "현재 시각은"+str(time)+"입니다."
+        return "현재 시각은 "+str(time)+"입니다."
 
 class BriefStrings(Today) :
     STRING_EXPER = "오늘도 아침 일기 작성하는 것 잊지 마세요!"
