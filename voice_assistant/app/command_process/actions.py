@@ -157,38 +157,40 @@ class Hello(BasicFeatures) :
         pass
 
 class Tv :
-    def _send_signal_thread(self, functionCode) :
+    #def _send_signal_thread(self, functionCode) :
         threading.Thread(target=manageTV.send_signal, args=(functionCode,)).start()
-    def power(self, isRequestTurn) :
-        if isRequestTurn :
-            self._send_signal_thread(signal_codes.power_on.value)
-            return _basic_answer(answers.Tv.POWER_ON_STRINGS)
-        self._send_signal_thread(signal_codes.power_off.value)
-        return _basic_answer(answers.Tv.POWER_OFF_STRINGS)
-    def volume(self, isUp) :
-        if isUp :
-            self._send_signal_thread(signal_codes.volume_up.value)
-            return _basic_answer(answers.Tv.VOLUME_UP_STRINGS)
-        self._send_signal_thread(signal_codes.volume_down.value)
-        return _basic_answer(answers.Tv.VOLUME_DOWN_STRINGS)
-    def channel_control(self, isUp) :
-        if isUp :
-            self._send_signal_thread(signal_codes.channel_up.value)
-            return _basic_answer(answers.Tv.CHANNEL_UP_STRINGS)
-        self._send_signal_thread(signal_codes.channel_down.value)
-        return _basic_answer(answers.Tv.CHANNEL_DOWN_STRINGS)
-    def channel_control_specific(self, channel) :
+    def _send_signal_with_number(self, channel) :
         channel = str(channel)
         for i in range(0, len(channel)) :
             if channel[i] == '0' :
-                self._send_signal_thread(18)
+                manageTV.send_signal(18)
             else :
-                self._send_signal_thread(int(channel[i])+8)
+                manageTV.send_signal(int(channel[i])+8)
             sleep(0.01)#신호 충돌 방지
-        self._send_signal_thread(42)#OK button
+        manageTV.send_signal(42)#OK button
+    def power(self, isRequestTurn) :
+        if isRequestTurn :
+            manageTV.send_signal(signal_codes.power_on.value)
+            return _basic_answer(answers.Tv.POWER_ON_STRINGS)
+        manageTV.send_signal(signal_codes.power_off.value)
+        return _basic_answer(answers.Tv.POWER_OFF_STRINGS)
+    def volume(self, isUp) :
+        if isUp :
+            manageTV.send_signal(signal_codes.volume_up.value)
+            return _basic_answer(answers.Tv.VOLUME_UP_STRINGS)
+        self.manageTV.send_signal(signal_codes.volume_down.value)
+        return _basic_answer(answers.Tv.VOLUME_DOWN_STRINGS)
+    def channel_control(self, isUp) :
+        if isUp :
+            manageTV.send_signal(signal_codes.channel_up.value)
+            return _basic_answer(answers.Tv.CHANNEL_UP_STRINGS)
+        manageTV.send_signald(signal_codes.channel_down.value)
+        return _basic_answer(answers.Tv.CHANNEL_DOWN_STRINGS)
+    def channel_control_specific(self, channel) :
+        threading.Thread(target=self._send_signal_with_number, args=(channel,)).start()
         return _basic_answer([answers.Tv().channel_specific(channel)])
     def mute(self) :
-        self._send_signal_thread(signal_codes.mute.value)
+        manageTV.send_signal(signal_codes.mute.value)
         return _basic_answer(answers.Tv.MUTE_STRINGS)
 
 class TvSimpleControlRepeat(Tv) :
