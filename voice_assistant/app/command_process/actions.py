@@ -157,8 +157,6 @@ class Hello(BasicFeatures) :
         pass
 
 class Tv :
-    #def _send_signal_thread(self, functionCode) :
-        threading.Thread(target=manageTV.send_signal, args=(functionCode,)).start()
     def _send_signal_with_number(self, channel) :
         channel = str(channel)
         for i in range(0, len(channel)) :
