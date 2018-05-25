@@ -5,7 +5,6 @@ def _findAndRemove(text, target) :
     text = str(text)
     return text.replace(target, "", text.count(target))
 def _removeTrashes(meals, day) :
-    meals = re.findall('<td class="textC">(.+)</td>', meals)
     trashes = ['①', '②', '③', '④', '⑤', '⑥', '⑦', '⑧', '⑨', '⑩', '⑪', '⑫', '⑬']
     for t in trashes :
         meals[day] = _findAndRemove(meals[day], t)
