@@ -12,16 +12,21 @@ from app.models import VoiceAssistant
 from app.serializers import RequestSerializer, UserSerializer
 import app.command_process.cmd_process as cmd
 
-class Answer(generics.ListCreateAPIView) :
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+
+class Answer(generics.ListCreateAPIView):
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
     queryset = VoiceAssistant.objects.all()
     serializer_class = RequestSerializer
-    
-    def perform_create(self, serializer) :
+
+    def perform_create(self, serializer):
         serializer.save(requested_user=self.request.user)
+
+
 class UserList(generics.ListAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+
+
 class UserDetail(generics.RetrieveAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
